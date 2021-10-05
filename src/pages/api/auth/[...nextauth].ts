@@ -1,54 +1,48 @@
-import NextAuth from "next-auth"
-import Providers from "next-auth/providers"
-import { query as q } from "faunadb"
-import { fauna } from "../../../services/fauna"
+import { query as db } from 'faunadb'
+
+import NextAuth from 'next-auth'
+import Providers from 'next-auth/providers'
+
+import { fauna } from '../../../services/fauna';
 
 export default NextAuth({
-  // Configure one or more authentication providers
   providers: [
     Providers.GitHub({
       clientId: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      scope: 'read:user'
-    }),
-    // ...add more providers here
+      clientSecret: process.env.GITHUB_CLIENT_SECRET
+    })
   ],
-
   callbacks: {
     async signIn(user, account, profile) {
-
-      const { email } = user
-
+      const { email } = user;
       try {
         await fauna.query(
-          q.If(
-            q.Not(
-              q.Exists(
-                q.Match(
-                  q.Index("users_by_email"),
-                  q.Casefold(user.email)
+          db.If(
+            db.Not(
+              db.Exists(
+                db.Match(
+                  db.Index('user_by_email'),
+                  db.Casefold(email)
                 )
               )
             ),
-            q.Create(
-              q.Collection("users"),
+            db.Create(
+              db.Collection('users'),
               { data: { email } }
             ),
-            q.Get(
-              q.Match(
-                q.Index("users_by_email"),
-                q.Casefold(user.email)
+            db.Get(
+              db.Match(
+                db.Index('user_by_email'),
+                db.Casefold(email)
               )
-            ),
+            )
           )
         )
-        return true
-      }
-      catch {
-        return false
-      }
 
-    },
+        return true;
+      } catch {
+        return false;
+      }
+    }
   }
-
 })
