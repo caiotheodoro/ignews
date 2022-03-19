@@ -27,6 +27,6 @@ it('adds active class if the link is as currently active', () => {
     );
 
     expect(screen.getByText('Home')).toBeInTheDocument();
-    expect(screen.getByText('Posts')).toHaveClass();
+    expect(screen.getByText('Posts')).toBeInTheDocument();
     })
 })
