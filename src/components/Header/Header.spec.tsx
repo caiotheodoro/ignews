@@ -26,6 +26,8 @@ it('adds active class if the link is as currently active', () => {
         <Header />
     );
 
+    screen.logTestingPlaygroundURL();
+
     expect(screen.getByText('Home')).toBeInTheDocument();
     expect(screen.getByText('Posts')).toBeInTheDocument();
     })
