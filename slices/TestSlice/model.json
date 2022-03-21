@@ -1,0 +1,31 @@
+{
+  "id": "test_slice",
+  "type": "SharedSlice",
+  "name": "TestSlice",
+  "description": "Test Slice",
+  "variations": [{
+    "id": "default",
+    "name": "Default Slice",
+    "docURL": "...",
+    "version": "sktwi1xtmkfgx8626",
+    "description": "Test Slice",
+    "primary": {
+      "title": {
+        "type": "StructuredText",
+        "config": {
+          "single": "heading1",
+          "label": "Title",
+          "placeholder": "This is where it all begins..."
+        }
+      },
+      "description": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph",
+          "label": "Description",
+          "placeholder": "A nice description of your product"
+        }
+      }
+    }
+  }]
+}
