@@ -1,6 +1,6 @@
 import { triggerAsyncId } from 'async_hooks';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getSession } from "next-auth/react";
+import { getSession } from "next-auth/client";
 import { stripe } from '../../services/stripe';
 import { fauna } from '../../services/fauna';
 import { query as q} from 'faunadb';

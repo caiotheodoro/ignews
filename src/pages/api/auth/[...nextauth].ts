@@ -1,17 +1,20 @@
-import NextAuth from "next-auth";
-import {query as q} from 'faunadb';
-import GithubProvider from "next-auth/providers/github";
-import {fauna} from '../../../services/fauna';
+import { query as q } from 'faunadb'
+
+import NextAuth from 'next-auth'
+import Providers from 'next-auth/providers'
+
+import { fauna } from '../../../services/fauna';
 
 export default NextAuth({
   providers: [
-    GithubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
-    }),
+    Providers.GitHub({
+      clientId: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET
+    })
   ],
   callbacks: {
-    async session({session}){
+
+    async session(session) {
       try {
         const userActiveSubscription = await fauna.query(
           q.Get(
@@ -19,7 +22,7 @@ export default NextAuth({
               q.Match(
                 q.Index('subscription_by_user_ref'),
                 q.Select(
-                  "ref",
+                  'ref',
                   q.Get(
                     q.Match(
                       q.Index('user_by_email'),
@@ -39,18 +42,14 @@ export default NextAuth({
         return {
           ...session,
           activeSubscription: userActiveSubscription
-        };
-
-      } catch {
-        return {
-          ...session,
-          activeSubscription: null
-        };
-      }
+        }
+      } catch  {
+        return{ ...session,  activeSubscription: null }
+      } 
     },
-    async signIn({ user }){
-      const { email } = user;
 
+    async signIn(user, account, profile) {
+      const { email } = user;
       try {
         await fauna.query(
           q.If(
@@ -64,7 +63,7 @@ export default NextAuth({
             ),
             q.Create(
               q.Collection('users'),
-              {data: { email }}
+              { data: { email } }
             ),
             q.Get(
               q.Match(
@@ -73,11 +72,13 @@ export default NextAuth({
               )
             )
           )
-      )
+        )
+
         return true;
-      } catch{
+      } catch {
         return false;
       }
     }
+
   }
 })
