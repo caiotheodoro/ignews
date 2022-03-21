@@ -1,9 +1,7 @@
-
 .container {
     max-width: 1120px;
     margin: 0 auto;
     padding: 0 2rem;
-
 }
 
 .posts {
@@ -12,9 +10,9 @@
 
     a {
         display: block;
-
+        cursor: pointer;
         & + a {
-            margin-top: 2rem;
+            margin-top: 2px;
             padding-top: 2rem;
             border-top: 1px solid var(--gray-700);
         }
@@ -31,6 +29,7 @@
             font-size: 1.5rem;
             margin-top: 1rem;
             line-height: 2rem;
+            transition: color 0.2s;
         }
 
         p {
@@ -39,7 +38,7 @@
             line-height: 1.625rem;
         }
 
-        &:hover strong{
+        &:hover strong {
             color: var(--yellow-500);
         }
     }
