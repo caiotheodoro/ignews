@@ -5,6 +5,7 @@ import Prismic from '@prismicio/client';
 import { RichText } from 'prismic-dom';
 import { getPrismicClient } from '../../services/prismic';
 import styles from './../../styles/styles.module.scss';
+import { useRouter } from 'next/router';
 
 type Post = {
   slug: string;
@@ -18,6 +19,13 @@ interface PostsProps {
 }
 
 export default function Posts({ posts }: PostsProps) {
+    const router = useRouter();
+
+
+    if (router.isFallback) {
+        return <div>Loading...</div>
+      }
+    
   return (
     <>
       <Head>

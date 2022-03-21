@@ -1,6 +1,7 @@
 import { GetServerSideProps } from "next"
 import { getSession } from "next-auth/client"
 import Head from "next/head"
+import { useRouter } from "next/router"
 import { RichText } from "prismic-dom"
 import { getPrismicClient } from "../../services/prismic"
 import styles from '../../styles/styles.module.scss';
@@ -15,6 +16,12 @@ interface PostProps {
 }
 
 export default function Post({ post } : PostProps) {
+    const router = useRouter();
+
+    if (router.isFallback) {
+        return <div>Loading...</div>
+      }
+
      return (
         <>
         <Head>
