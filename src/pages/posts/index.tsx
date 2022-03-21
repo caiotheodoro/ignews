@@ -1,7 +1,7 @@
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import styles from './styles.module.scss';
-import { PrismicClient } from '../../services/prismic';
+import { getPrismicClient } from '../../services/prismic';
 import Prismic from "@prismicio/client";
 import { RichText } from 'prismic-dom';
 import Link from 'next/link';
@@ -51,9 +51,9 @@ export default function Posts({posts}: PostProps){
 }
 
 export const getStaticProps:GetStaticProps = async () => {
-    const prismic = PrismicClient();
+    const prismic = getPrismicClient();
 
-    const document = await prismic.query<DataDocumentsPrismic>(
+    const document = await prismic.query(
     [
         Prismic.Predicates.at('document.type', 'publication')
     ], {
