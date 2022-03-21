@@ -25,15 +25,12 @@ export default function PostPreview({ post }: PostPreviewProps) {
 
  
   useEffect(() => {
+   
     if(session?.activeSubscription){
       router.push(`/posts/${post.slug}`);
     }
   },[session]);
 
-  if (router.isFallback) {
-    return null
-  } 
-  
 
   return (
     <>
