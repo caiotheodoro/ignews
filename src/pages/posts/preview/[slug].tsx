@@ -6,7 +6,7 @@ import Link from "next/link";
 import { RichText } from "prismic-dom";
 import { useEffect } from "react";
 import { getPrismicClient } from "../../../services/prismic";
-import styles from '../../../styles/post.module.scss';
+import styles from '../post.module.scss';
 
 interface PostPreviewProps {
   post: {
@@ -18,19 +18,14 @@ interface PostPreviewProps {
 }
 
 export default function PostPreview({ post }: PostPreviewProps) {
-
-
   const [session] = useSession();
   const router = useRouter();
 
- 
   useEffect(() => {
-   
     if(session?.activeSubscription){
       router.push(`/posts/${post.slug}`);
     }
   },[session]);
-
 
   return (
     <>
@@ -48,7 +43,7 @@ export default function PostPreview({ post }: PostPreviewProps) {
           />
 
           <div className={styles.continueReading}>
-            Want to continue reading?
+            Wanna continue reading?
             <Link href="/">
               <a>Subscribe now 🤗</a>
             </Link>              
